@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+        <!-- AJAX calls-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        
+        <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+
+        <style>
+            body, html {
+              height: 100%;
+            }
+            
+            body {
+                background-image: url("/images/background.jpg");
+                background-size:cover;
+                
+            } 
+
+            h1 {
+                text-align: center;
+                font-family: Noto Sans, sans-serif;
+            }
+
+            .para {
+                font-weight: 800;
+                font-family: Noto Sans, sans-serif; 
+            }
+            </style>
+
+        <title>NFL Statistics 2022</title>
+    </head>
+    <body>
+            <h1>NFL Stats 2022</h1>
+            <div class="bg-container">
+            </div>
+            <h2>Quarterback Stats 2022</h2>
+            <div>
+                <button id = "button-showCreate" onclick="showCreate()">Create QB</button>
+            </div>
+
+            <div>
+                <table class = "table table-striped table-dark table-hover thead-light" id = "QBTable" border = "1">
+                    <tr>
+                        <th>id</th>
+                        <th>Name</th>
+                        <th>Team</th>
+                        <th>Yards</th>
+                        <th>TDs</th>
+                        <th>INTs</th>
+                        <th>Update</th>
+                        <th>Delete</th> 
+                    </tr>
+                    <tr id = "1">
+                        <td>1</td>
+                        <td>Patrick Mahomes</td>
+                        <td>Kansas City Chiefs</td>
+                        <td>3585</td>
+                        <td>29</td>
+                        <td>8</td>
+                        <td><button onclick = "showUpdate(this)">Update</button></td>
+                        <td><button onclick = "doDelete(this)">Delete</button></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="para">The above table outlines the quarterback statistics for the NFL for the 2022. <br>
+                The data is divided into five categories, the QB's name and team, the number of passing yards, <br>
+                the number of touchdown (TDs) passes thrown, and the number of interceptions (INTs) thrown.
+            </div>
+            <div id = 'createUpdateForm' style= "display:none">
+                <h2>
+                    <span id = "createLabel"> Create a</span>
+                    <span id = "updateLabel"> Update this</span>QB
+                </h2>
+                id <input type = "text" name = "id"><br/>
+                Name <input type = "text" name = "Name"></br>
+                Team <input type = "text" name = "Team"></br>
+                Yards <input type = "number" name = "Yards"></br>
+                TDs <input type = "number" name = "TDs"></br>
+                INTs <input type = "number" name = "INTs"></br>
+                </select><br/>
+                <span><button id = "button-doCreate" onclick = "doCreate()">Create</button></span>
+            <span><button id = "button-doUpdate" onclick = "doUpdate()">Update</button></span>
+            </div>
+
+            <div>
+                <button id = "button-showCreateRB" onclick="showCreateRB()">Create RB</button>
+            </div>
+
+            <div>
+                <table class = "table table-striped table-dark table-hover thead-light" id = "RBTable" border = "1">
+                    <tr>
+                        <th>id</th>
+                        <th>Name</th>
+                        <th>Team</th>
+                        <th>Yards</th>
+                        <th>ATTs</th>
+                        <th>TDs</th>
+                        <th>Update</th>
+                        <th>Delete</th> 
+                    </tr>
+                    <tr id = "1">
+                        <td>1</td>
+                        <td>Josh Jacobs</td>
+                        <td>Las Vegas Raiders</td>
+                        <td>1159</td>
+                        <td>216</td>
+                        <td>9</td>
+                        <td><button onclick = "showUpdateRB(this)">Update</button></td>
+                        <td><button onclick = "doDeleteRB(this)">Delete</button></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="para">The above table outlines the running back statistics for the NFL for the 2022. <br>
+                The data is divided into five categories, the RB's name and team, the number of rushing yards, <br>
+                the number of rushing attempts (ATTs) made, and the number of touchdowns (TDs) scored.
+            </div>
+            
+            
+
+            <div id = 'createUpdateFormRB' style= "display:none">
+                <h2>
+                    <span id = "createLabelRB"> Create a</span>
+                    <span id = "updateLabelRB"> Update this</span>RB
+                </h2>
+                id <input type = "text" name = "id"><br/>
+                Name <input type = "text" name = "Name"></br>
+                Team <input type = "text" name = "Team"></br>
+                Yards <input type = "number" name = "Yards"></br>
+                ATTs <input type = "number" name = "ATTs"></br>
+                TDs <input type = "number" name = "TDs"></br>
+                </select><br/>
+                <span><button id = "button-doCreateRB" onclick = "doCreateRB()">Create RB</button></span>
+            <span><button id = "button-doUpdateRB" onclick = "doUpdateRB()">Update RB</button></span>
+            </div>
+    </body>
+
+<script>
+//console.log("Hello world")
+
+function showCreate(){
+    document.getElementById('createUpdateForm').style.display="block"
+
+    document.getElementById('button-doCreate').style.display="block"
+    document.getElementById('button-doUpdate').style.display="none"
+
+    document.getElementById('createLabel').style.display="inline"
+    document.getElementById('updateLabel').style.display="none"
+
+    document.getElementById('button-showCreate').style.display="none"
+    document.getElementById('QBTable').style.display="none"
+}
+
+function showViewAll(){
+    document.getElementById('createUpdateForm').style.display="none"
+
+    document.getElementById('button-showCreate').style.display="block"
+    document.getElementById('QBTable').style.display="block"
+}
+
+
+function clearForm(){
+    var form = document.getElementById("createUpdateForm")
+
+    form.querySelector('input[name = "id"]').disabled = false
+    form.querySelector('input[name = "id"]').value =''
+    form.querySelector('input[name = "Name"]').value = ''
+    form.querySelector('input[name = "Team"]').value = ''
+    form.querySelector('input[name = "Yards"]').value = ''
+    form.querySelector('input[name = "TDs"]').value = ''
+    form.querySelector('input[name = "INTs"]').value = ''
+}
+
+function getQBFromForm(){
+    var form = document.getElementById("createUpdateForm")
+    var QB = {}
+
+    QB.id = form.querySelector('input[name = "id"]').value
+    QB.Name = form.querySelector('input[name = "Name"]').value
+    QB.Team = form.querySelector('input[name = "Team"]').value
+    QB.Yards = form.querySelector('input[name = "Yards"]').value
+    QB.TDs = form.querySelector('input[name = "TDs"]').value
+    QB.INTs = form.querySelector('input[name = "INTs"]').value
+    //console.log(JSON.stringify(QB))
+    return QB
+
+}
+function showUpdate(buttonElement){
+    document.getElementById('createUpdateForm').style.display="block"
+    
+    document.getElementById('button-doCreate').style.display="none"
+    document.getElementById('button-doUpdate').style.display="block"
+
+    document.getElementById('createLabel').style.display="none"
+    document.getElementById('updateLabel').style.display="inline"
+
+    document.getElementById('button-showCreate').style.display="none"
+    document.getElementById('QBTable').style.display="none"
+
+    var rowElement = buttonElement.parentNode.parentNode //finding closest <tr>, can use closest() also
+
+    var QB = getQBFromRow(rowElement)
+    populateFormWithQB(QB)
+}
+
+function addQBToTable(QB){
+    var tableElement = document.getElementById('QBTable')
+    var rowElement = tableElement.insertRow(-1) // Adds to last row of table
+    rowElement.setAttribute('id', QB.id)
+    var cell1 = rowElement.insertCell(0);
+    cell1.innerHTML = QB.id
+    var cell2 = rowElement.insertCell(1);
+    cell2.innerHTML = QB.Name
+    var cell3 = rowElement.insertCell(2);
+    cell3.innerHTML = QB.Team
+    var cell4 = rowElement.insertCell(3);
+    cell4.innerHTML = QB.Yards
+    var cell5 = rowElement.insertCell(4);
+    cell5.innerHTML = QB.TDs
+    var cell6 = rowElement.insertCell(5);
+    cell6.innerHTML = QB.INTs
+    var cell7 = rowElement.insertCell(6);
+    cell7.innerHTML = '<button onclick = "showUpdate(this)">Update</button>'
+    var cell8 = rowElement.insertCell(7);
+    cell8.innerHTML = '<button onclick = "doDelete(this)">Delete</button>'
+
+}
+
+function getQBFromRow(rowElement){
+    var QB = {}
+    QB.id = rowElement.cells[0].firstChild.textContent
+    QB.Name = rowElement.cells[1].firstChild.textContent
+    QB.Team = rowElement.cells[2].firstChild.textContent
+    QB.Yards = rowElement.cells[3].firstChild.textContent
+    QB.TDs = rowElement.cells[4].firstChild.textContent
+    QB.INTs = rowElement.cells[5].firstChild.textContent
+    return QB
+}
+
+function setQBInRow(rowElement, QB){
+    rowElement.cells[0].firstChild.textContent = QB.id
+    rowElement.cells[1].firstChild.textContent = QB.Name
+    rowElement.cells[2].firstChild.textContent = QB.Team
+    rowElement.cells[3].firstChild.textContent = QB.Yards
+    rowElement.cells[4].firstChild.textContent = QB.TDs
+    rowElement.cells[5].firstChild.textContent = QB.INTs
+    return QB
+}
+
+function populateFormWithQB(QB){
+    var form = document.getElementById('createUpdateForm')
+    form.querySelector('input[name="id"]').disabled = true
+    form.querySelector('input[name="id"]').value = QB.id
+    form.querySelector('input[name="Name"]').value = QB.Name
+    form.querySelector('input[name="Team"]').value = QB.Team
+    form.querySelector('input[name="Yards"]').value = QB.Yards
+    form.querySelector('input[name="TDs"]').value = QB.TDs
+    form.querySelector('input[name="INTs"]').value = QB.INTs
+}
+
+function doCreate(){
+    QB = getQBFromForm()
+    console.log(QB)
+    addQBToTable(QB)
+    showViewAll()
+    clearForm()
+}
+
+function doUpdate(){
+    console.log("Updating Quarterback")
+    var QB = getQBFromForm()
+    var rowElement = document.getElementById(QB.id)
+    setQBInRow(rowElement, QB)
+    showViewAll()
+    clearForm()
+}
+
+function doDelete(buttonElement){
+    console.log("Deleting")
+    var tableElement = document.getElementById('QBTable')
+    var index = buttonElement.parentNode.parentNode.rowIndex
+    tableElement.deleteRow(index)
+}
+
+function AjaxGetAll() {
+        $.ajax({
+            "url ": "/quarterbacks ",
+            "method ": "GET ",
+            "data ": " ",
+            "dataType ": "JSON ",
+            "success ": function(result) {
+                console.log(result);
+                for (QB of result) {
+                    addQBTable(QB);
+                }
+
+            },
+            "error ": function(xhr, status, error) {
+                console.log("error: " + status + " msg: " + error);
+            }
+        });
+    }
+    
+function AjaxCreate(QB) {
+    console.log(JSON.stringify(QB));
+        $.ajax({
+            "url ": "/quarterbacks ",
+            "method ": "POST ",
+            "data ": JSON.stringify(QB),
+            "dataType ": "JSON ",
+            contentType: "application/json; charset=utf-8 ",
+            "success ": function(result) {
+            console.log(result);
+
+            },
+            "error ": function(xhr, status, error) {
+                console.log("error: " + status + " msg: " + error);
+             }
+        });
+    }
+
+function AjaxUpdateQB(QB) {
+    console.log(JSON.stringify(QB));
+        $.ajax({
+            "url ": "/quarterbacks/ " + encodeURI(QB.id),
+            "method ": "PUT ",
+            "data ": JSON.stringify(nonfood),
+            "dataType ": "JSON ",
+            contentType: "application/json; charset=utf-8 ",
+            "success ": function(result) {
+                console.log(result);
+
+            },
+            "error ": function(xhr, status, error) {
+                console.log("error: " + status + " msg: " + error);
+            }
+        });
+    }
+
+function AjaxDelete(id) {
+    console.log(JSON.stringify(QB));
+        $.ajax({
+            "url ": "/quarterbacks/ " + encodeURI(id),
+            "method ": "DELETE ",
+            "data ": " ",
+            "dataType ": "JSON ",
+            contentType: "application/json; charset=utf-8 ",
+            "success ": function(result) {
+                console.log(result);
+
+            },
+            "error ": function(xhr, status, error) {
+                console.log("error: " + status + " msg: " + error);
+            }
+        });
+    }
+    //AjaxGetAll();
+
+
+    function showCreateRB(){
+    document.getElementById('createUpdateFormRB').style.display="block"
+
+    document.getElementById('button-doCreateRB').style.display="block"
+    document.getElementById('button-doUpdateRB').style.display="none"
+
+    document.getElementById('createLabelRB').style.display="inline"
+    document.getElementById('updateLabelRB').style.display="none"
+
+    document.getElementById('button-showCreateRB').style.display="none"
+    document.getElementById('RBTable').style.display="none"
+}
+
+function showViewAllRB(){
+    document.getElementById('createUpdateFormRB').style.display="none"
+
+    document.getElementById('button-showCreateRB').style.display="block"
+    document.getElementById('RBTable').style.display="block"
+}
+
+
+function clearFormRB(){
+    var formRB = document.getElementById("createUpdateFormRB")
+
+    formRB.querySelector('input[name = "id"]').disabled = false
+    formRB.querySelector('input[name = "id"]').value =''
+    formRB.querySelector('input[name = "Name"]').value = ''
+    formRB.querySelector('input[name = "Team"]').value = ''
+    formRB.querySelector('input[name = "Yards"]').value = ''
+    formRB.querySelector('input[name = "ATTs"]').value = ''
+    formRB.querySelector('input[name = "TDs"]').value = ''
+}
+
+function getRBFromForm(){
+    var formRB = document.getElementById("createUpdateFormRB")
+    var RB = {}
+
+    RB.id = formRB.querySelector('input[name = "id"]').value
+    RB.Name = formRB.querySelector('input[name = "Name"]').value
+    RB.Team = formRB.querySelector('input[name = "Team"]').value
+    RB.Yards = formRB.querySelector('input[name = "Yards"]').value
+    RB.ATTs = formRB.querySelector('input[name = "ATTs"]').value
+    RB.TDs = formRB.querySelector('input[name = "TDs"]').value
+    //console.log(JSON.stringify(RB))
+    return RB
+
+}
+function showUpdateRB(buttonElementRB){
+    document.getElementById('createUpdateFormRB').style.display="block"
+    
+    document.getElementById('button-doCreateRB').style.display="none"
+    document.getElementById('button-doUpdateRB').style.display="block"
+
+    document.getElementById('createLabelRB').style.display="none"
+    document.getElementById('updateLabelRB').style.display="inline"
+
+    document.getElementById('button-showCreateRB').style.display="none"
+    document.getElementById('RBTable').style.display="none"
+
+    var rowElementRB = buttonElementRB.parentNode.parentNode //finding closest <tr>, can use closest() also
+
+    var RB = getRBFromRow(rowElementRB)
+    populateFormWithRB(RB)
+}
+
+function addRBToTable(RB){
+    var tableElementRB = document.getElementById('RBTable')
+    var rowElementRB = tableElementRB.insertRow(-1) // Adds to last row of table
+    rowElementRB.setAttribute('id', RB.id)
+    var cell1RB = rowElementRB.insertCell(0);
+    cell1RB.innerHTML = RB.id
+    var cell2RB = rowElementRB.insertCell(1);
+    cell2RB.innerHTML = RB.Name
+    var cell3RB = rowElementRB.insertCell(2);
+    cell3RB.innerHTML = RB.Team
+    var cell4RB = rowElementRB.insertCell(3);
+    cell4RB.innerHTML = RB.Yards
+    var cell5RB = rowElementRB.insertCell(4);
+    cell5RB.innerHTML = RB.ATTs
+    var cell6RB = rowElementRB.insertCell(5);
+    cell6RB.innerHTML = RB.TDs
+    var cell7RB = rowElementRB.insertCell(6);
+    cell7RB.innerHTML = '<button onclick = "showUpdateRB(this)">Update</button>'
+    var cell8RB = rowElementRB.insertCell(7);
+    cell8RB.innerHTML = '<button onclick = "doDeleteRB(this)">Delete</button>'
+
+}
+
+function getRBFromRow(rowElementRB){
+    var RB = {}
+    RB.id = rowElementRB.cells[0].firstChild.textContent
+    RB.Name = rowElementRB.cells[1].firstChild.textContent
+    RB.Team = rowElementRB.cells[2].firstChild.textContent
+    RB.Yards = rowElementRB.cells[3].firstChild.textContent
+    RB.ATTs = rowElementRB.cells[4].firstChild.textContent
+    RB.TDs = rowElementRB.cells[5].firstChild.textContent
+    return RB
+}
+
+function setRBInRow(rowElementRB, RB){
+    rowElementRB.cells[0].firstChild.textContent = RB.id
+    rowElementRB.cells[1].firstChild.textContent = RB.Name
+    rowElementRB.cells[2].firstChild.textContent = RB.Team
+    rowElementRB.cells[3].firstChild.textContent = RB.Yards
+    rowElementRB.cells[4].firstChild.textContent = RB.ATTs
+    rowElementRB.cells[5].firstChild.textContent = RB.TDs
+    return RB
+}
+
+function populateFormWithRB(RB){
+    var formRB = document.getElementById('createUpdateFormRB')
+    formRB.querySelector('input[name="id"]').disabled = true
+    formRB.querySelector('input[name="id"]').value = RB.id
+    formRB.querySelector('input[name="Name"]').value = RB.Name
+    formRB.querySelector('input[name="Team"]').value = RB.Team
+    formRB.querySelector('input[name="Yards"]').value = RB.Yards
+    formRB.querySelector('input[name="ATTs"]').value = RB.ATTs
+    formRB.querySelector('input[name="TDs"]').value = RB.TDs
+}
+
+function doCreateRB(){
+    RB = getRBFromForm()
+    console.log(RB)
+    addRBToTable(RB)
+    showViewAllRB()
+    clearFormRB()
+}
+
+function doUpdateRB(){
+    console.log("Updating Running Back")
+    var RB = getRBFromForm()
+    var rowElementRB = document.getElementById(RB.id)
+    setRBInRow(rowElementRB, RB)
+    showViewAllRB()
+    clearFormRB()
+}
+
+function doDeleteRB(buttonElementRB){
+    console.log("Deleting")
+    var tableElementRB = document.getElementById('RBTable')
+    var indexRB = buttonElementRB.parentNode.parentNode.rowIndex
+    tableElementRB.deleteRow(indexRB)
+}
+
+function AjaxGetAllRB() {
+        $.ajax({
+            "url ": "http://127.0.0.1:5000/runningbacks ",
+            "method ": "GET ",
+            "data ": " ",
+            "dataType ": "JSON ",
+            "success ": function(result) {
+                console.log(result);
+                for (RB of result) {
+                    addRBTable(RB);
+                }
+
+            },
+            "error ": function(xhr, status, error) {
+                console.log("error: " + status + " msg: " + error);
+            }
+        });
+    }
+    
+function AjaxCreateRB(RB) {
+    console.log(JSON.stringify(RB));
+        $.ajax({
+            "url ": "http://127.0.0.1:5000/runningbacks ",
+            "method ": "POST ",
+            "data ": JSON.stringify(RB),
+            "dataType ": "JSON ",
+            contentType: "application/json; charset=utf-8 ",
+            "success ": function(result) {
+            console.log(result);
+
+            },
+            "error ": function(xhr, status, error) {
+                console.log("error: " + status + " msg: " + error);
+             }
+        });
+    }
+
+function AjaxUpdateRB(RB) {
+    console.log(JSON.stringify(RB));
+        $.ajax({
+            "url ": "http://127.0.0.1:5000/runningbacks/ " + encodeURI(RB.id),
+            "method ": "PUT ",
+            "data ": JSON.stringify(RB),
+            "dataType ": "JSON ",
+            contentType: "application/json; charset=utf-8 ",
+            "success ": function(result) {
+                console.log(result);
+
+            },
+            "error ": function(xhr, status, error) {
+                console.log("error: " + status + " msg: " + error);
+            }
+        });
+    }
+
+function AjaxDelete(id) {
+    console.log(JSON.stringify(RB));
+        $.ajax({
+            "url ": "http://127.0.0.1:5000/runningbacks/ " + encodeURI(id),
+            "method ": "DELETE ",
+            "data ": " ",
+            "dataType ": "JSON ",
+            contentType: "application/json; charset=utf-8 ",
+            "success ": function(result) {
+                console.log(result);
+
+            },
+            "error ": function(xhr, status, error) {
+                console.log("error: " + status + " msg: " + error);
+            }
+        });
+    }
+    
+    AjaxGetAllRB();
+
+
+    function populateQBTable(){
+                //ajax calls server to getAll items
+               $.ajax({
+                   url:'/quarterbacks',
+                   method:'GET',
+                   datatype:'JSON',
+                   success:function(results){
+                        for (item of results){
+                             addStockToTable(item)
+                        }
+                   },
+                   error:function (xhr,status,error){
+                       console.log ("error "+error +" code:"+status)
+                   }
+
+               })
+               
+            }
+            function addStockToTable(item){
+                //console.log("working so far")
+                tableElem = document.getElementById("QBTable")
+                rowElem = tableElem.insertRow(-1)
+                rowElem.setAttribute("id", item.id)
+                cell1 = rowElem.insertCell(0)
+                cell1.innerHTML = item.id
+                cell2 = rowElem.insertCell(1)
+                cell2.innerHTML = item.description
+                cell3 = rowElem.insertCell(2)
+                cell3.innerHTML = item.price
+                cell4 = rowElem.insertCell(3)
+                cell4.innerHTML = item.provenance
+                cell5 = rowElem.insertCell(4)
+                cell5.innerHTML = '<button onclick="showUpdate(this)"<button type="button" class="btn btn-secondary">Update</button>'
+                cell6 = rowElem.insertCell(5)
+                cell6.innerHTML = '<button onclick="doDelete(this)"<button type="button" class="btn btn-danger">DELETE</button>'
+                
+                 }
+            populateTable()
+    
+</script>
+</html>
